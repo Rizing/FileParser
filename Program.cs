@@ -130,21 +130,21 @@ namespace FileParser
                 int iTemp;
 
                 if (DateTime.TryParse(item, out dtTemp))
-                    dt.TryAdd(dtTemp, item);
+                    dt.GetOrAdd(dtTemp, item);
                 else if (int.TryParse(item, out iTemp))
-                    di.TryAdd(iTemp, item);
+                    di.GetOrAdd(iTemp, item);
                 else
-                    ds.TryAdd(item, item);
+                    ds.GetOrAdd(item, item);
             });
 
-            var t = dt.OrderBy(x => x.Key).Select(date => date.ToString()).ToList();
-            SaveData(outFileNameDate, t);
+            var text = dt.OrderBy(x => x.Key).Select(date => date.Key.ToString()).ToList();
+            SaveData(outFileNameStr, text);
 
-            var i = di.OrderBy(y => y.Key).Select(num => num.Key.ToString()).ToList();
-            SaveData(outFileNameInt, i);
+            var numb = di.OrderBy(y => y.Key).Select(num => num.Key.ToString()).ToList();
+            SaveData(outFileNameInt, numb);
 
             var strS = ds.OrderBy(z => z.Key).Select(s => s.Key.ToString()).ToList();
-            SaveData(outFileNameStr, strS);
+            SaveData(outFileNameDate, strS);
 
             Console.WriteLine($"{result.IsCompleted} dt={dt.Count} di={di.Count} ds={ds.Count} нажмите что бы продолжить...");
             Console.ReadKey();
